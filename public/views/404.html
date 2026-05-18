@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" class="no-js">
+    <head>
+        <title id="notFoundTitle">VideoCall — 404 Not Found</title>
+        <link rel="shortcut icon" href="../images/logo.svg" />
+        <link rel="apple-touch-icon" href="../images/logo.svg" />
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Page not found — VideoCall App." />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+        <style>
+            *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+            :root {
+                --color-primary:       #6c63ff;
+                --color-primary-dark:  #574fd6;
+                --color-primary-light: #a89eff;
+            }
+
+            html, body {
+                min-height: 100vh;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                color: #fff;
+            }
+
+            body {
+                background: radial-gradient(ellipse at top left, #0f0c29, #302b63, #24243e);
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Header */
+            .site-header {
+                position: fixed;
+                top: 0; left: 0; width: 100%;
+                z-index: 100;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                background: rgba(15, 12, 41, 0.7);
+                border-bottom: 1px solid rgba(108, 99, 255, 0.15);
+            }
+
+            .site-header-inner {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 64px;
+                padding: 0 24px;
+                max-width: 1100px;
+                margin: 0 auto;
+                width: 100%;
+            }
+
+            .header-brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+                color: #ffffff;
+                font-weight: 700;
+                font-size: 1rem;
+            }
+
+            .header-brand img { width: 28px; height: 28px; border-radius: 6px; }
+
+            /* Main */
+            .page-main {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 80px 24px;
+                text-align: center;
+            }
+
+            .error-card {
+                max-width: 480px;
+                width: 100%;
+            }
+
+            .error-code {
+                font-size: clamp(6rem, 18vw, 10rem);
+                font-weight: 900;
+                line-height: 1;
+                letter-spacing: -0.05em;
+                background: linear-gradient(135deg, rgba(108,99,255,0.4) 0%, rgba(108,99,255,0.08) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 8px;
+                user-select: none;
+            }
+
+            .error-title {
+                font-size: clamp(1.4rem, 3vw, 2rem);
+                font-weight: 800;
+                color: #fff;
+                margin-bottom: 16px;
+                letter-spacing: -0.02em;
+            }
+
+            .error-desc {
+                font-size: 1rem;
+                color: rgba(255,255,255,0.55);
+                line-height: 1.6;
+                margin-bottom: 40px;
+            }
+
+            .btn-primary {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 14px 32px;
+                background: var(--color-primary);
+                color: #fff;
+                border: none;
+                border-radius: 50px;
+                font-size: 14px;
+                font-weight: 700;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                cursor: pointer;
+                text-decoration: none;
+                transition: background 0.2s, transform 0.15s;
+                box-shadow: 0 4px 24px rgba(108,99,255,0.4);
+            }
+
+            .btn-primary:hover {
+                background: var(--color-primary-dark);
+                transform: translateY(-2px);
+            }
+
+            /* Footer */
+            .site-footer {
+                border-top: 1px solid rgba(255,255,255,0.06);
+                padding: 24px;
+            }
+
+            .footer-inner {
+                max-width: 1100px;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .footer-nav ul {
+                display: flex;
+                gap: 4px;
+                list-style: none;
+                flex-wrap: wrap;
+            }
+
+            .footer-nav a {
+                padding: 4px 10px;
+                font-size: 12px;
+                color: rgba(255,255,255,0.4);
+                text-decoration: none;
+                border-radius: 6px;
+                transition: color 0.2s, background 0.2s;
+            }
+
+            .footer-nav a:hover {
+                color: rgba(255,255,255,0.8);
+                background: rgba(255,255,255,0.06);
+            }
+
+            .footer-copyright { font-size: 12px; color: rgba(255,255,255,0.3); }
+        </style>
+    </head>
+    <body>
+
+        <!-- Header -->
+        <header class="site-header">
+            <div class="site-header-inner">
+                <a href="/" class="header-brand">
+                    <img src="../images/logo.svg" alt="VideoCall" />
+                    VideoCall
+                </a>
+                <a href="/" style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;"
+                   onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+                    <i class="fas fa-arrow-left" style="margin-right:6px;"></i>Back to Home
+                </a>
+            </div>
+        </header>
+
+        <!-- Main -->
+        <main class="page-main">
+            <div class="error-card">
+                <div class="error-code">404</div>
+                <h1 class="error-title">Page Not Found</h1>
+                <p class="error-desc" id="getUserMediaError">
+                    The page you're looking for doesn't exist or has been moved.
+                </p>
+                <a href="/" class="btn-primary">
+                    <i class="fas fa-house"></i> Go to Homepage
+                </a>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer id="footer" class="site-footer">
+            <div class="footer-inner">
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/api/v1/docs/">API Docs</a></li>
+                    </ul>
+                </nav>
+                <div class="footer-copyright">&copy; <span id="footerYear"></span> VideoCall App. All rights reserved.</div>
+            </div>
+        </footer>
+
+        <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+        <script defer src="../js/brand.js"></script>
+        <script defer src="../js/landing.js"></script>
+    </body>
+</html>

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en" class="no-js">
+    <head>
+        <title>VideoCall — About</title>
+        <link rel="shortcut icon" href="../images/logo.svg" />
+        <link rel="apple-touch-icon" href="../images/logo.svg" />
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="About VideoCall — a private peer-to-peer WebRTC video calling application." />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+        <link rel="stylesheet" href="../css/landing.css" />
+        <link rel="stylesheet" href="../css/newcall.css" />
+
+        <style>
+            body {
+                background: radial-gradient(ellipse at top left, #0f0c29, #302b63, #24243e);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            :root {
+                --color-primary: #6c63ff;
+                --color-primary-dark: #574fd6;
+            }
+
+            .about-wrapper {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 80px 24px 40px;
+            }
+
+            .about-card {
+                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid rgba(108, 99, 255, 0.2);
+                border-radius: 20px;
+                padding: 56px 48px;
+                max-width: 640px;
+                width: 100%;
+                text-align: center;
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.04);
+            }
+
+            .about-logo {
+                width: 72px;
+                height: 72px;
+                margin: 0 auto 24px;
+                padding: 16px;
+                background: rgba(108, 99, 255, 0.12);
+                border: 1px solid rgba(108, 99, 255, 0.3);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .about-logo img {
+                width: 40px;
+                height: 40px;
+                border-radius: 0;
+            }
+
+            .about-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(108, 99, 255, 0.15);
+                border: 1px solid rgba(108, 99, 255, 0.35);
+                border-radius: 20px;
+                padding: 4px 14px;
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: #a89eff;
+                margin-bottom: 20px;
+            }
+
+            .about-title {
+                font-size: 2rem;
+                font-weight: 800;
+                background: linear-gradient(135deg, #ffffff 40%, #a89eff);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin: 0 0 12px;
+                line-height: 1.2;
+            }
+
+            .about-version {
+                font-size: 13px;
+                color: rgba(255,255,255,0.35);
+                font-family: monospace;
+                margin-bottom: 32px;
+            }
+
+            .about-description {
+                font-size: 1rem;
+                line-height: 1.7;
+                color: rgba(255, 255, 255, 0.65);
+                margin-bottom: 40px;
+            }
+
+            .about-features {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                margin-bottom: 40px;
+                text-align: left;
+            }
+
+            .about-feature {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background: rgba(255,255,255,0.04);
+                border: 1px solid rgba(255,255,255,0.06);
+                border-radius: 10px;
+                padding: 12px 14px;
+                font-size: 13px;
+                color: rgba(255,255,255,0.7);
+                transition: background 0.2s, border-color 0.2s;
+            }
+
+            .about-feature:hover {
+                background: rgba(108,99,255,0.1);
+                border-color: rgba(108,99,255,0.25);
+            }
+
+            .about-feature i {
+                color: #a89eff;
+                font-size: 14px;
+                width: 16px;
+                text-align: center;
+                flex-shrink: 0;
+            }
+
+            .about-divider {
+                border: none;
+                border-top: 1px solid rgba(255,255,255,0.08);
+                margin: 0 0 28px;
+            }
+
+            .about-copyright {
+                font-size: 12px;
+                color: rgba(255,255,255,0.3);
+                line-height: 1.6;
+            }
+
+            .about-copyright span {
+                color: #a89eff;
+            }
+
+            @media (max-width: 540px) {
+                .about-card {
+                    padding: 36px 24px;
+                }
+                .about-features {
+                    grid-template-columns: 1fr;
+                }
+                .about-title {
+                    font-size: 1.5rem;
+                }
+            }
+
+            /* Footer */
+            .site-footer { border-top: 1px solid rgba(255,255,255,0.06); }
+            .footer-copyright { color: rgba(255,255,255,0.4); }
+        </style>
+    </head>
+    <body>
+        <div class="about-wrapper">
+            <div class="about-card">
+                <div class="about-logo">
+                    <img src="../images/logo.svg" alt="VideoCall" />
+                </div>
+
+                <div class="about-badge">
+                    <i class="fas fa-lock"></i> Private Project
+                </div>
+
+                <h1 class="about-title">VideoCall App</h1>
+                <p class="about-version">v1.8.34 &nbsp;·&nbsp; WebRTC P2P</p>
+
+                <p class="about-description">
+                    A private, secure, peer-to-peer video calling application built on WebRTC.
+                    All media travels directly between participants — no server ever sees your video or audio.
+                    No accounts. No tracking. No intermediaries.
+                </p>
+
+                <div class="about-features">
+                    <div class="about-feature"><i class="fas fa-video"></i> HD Video &amp; Audio</div>
+                    <div class="about-feature"><i class="fas fa-desktop"></i> Screen Sharing</div>
+                    <div class="about-feature"><i class="fas fa-lock"></i> E2E Encrypted</div>
+                    <div class="about-feature"><i class="fas fa-comments"></i> In-Call Chat</div>
+                    <div class="about-feature"><i class="fas fa-circle-dot"></i> Call Recording</div>
+                    <div class="about-feature"><i class="fas fa-chalkboard"></i> Whiteboard</div>
+                    <div class="about-feature"><i class="fas fa-file-arrow-up"></i> File Transfer</div>
+                    <div class="about-feature"><i class="fas fa-user-slash"></i> No Sign-Up</div>
+                </div>
+
+                <hr class="about-divider" />
+
+                <p class="about-copyright">
+                    Built with WebRTC · Socket.IO · Node.js<br />
+                    <span>&copy; <span id="year"></span> VideoCall App</span> &nbsp;·&nbsp; Private Project &nbsp;·&nbsp; All rights reserved.
+                </p>
+            </div>
+        </div>
+
+        <footer class="site-footer center-content-mobile">
+            <div class="container">
+                <div class="site-footer-inner">
+                    <div class="footer-bottom space-between text-xxs invert-order-desktop">
+                        <nav class="footer-nav">
+                            <ul class="list-reset">
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/privacy">Privacy Policy</a></li>
+                                <li><a href="/api/v1/docs/">API Docs</a></li>
+                            </ul>
+                        </nav>
+                        <div class="footer-copyright">&copy; <span id="footerYear"></span> VideoCall App. All rights reserved.</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            const y = new Date().getFullYear();
+            document.getElementById('year').textContent = y;
+            document.getElementById('footerYear').textContent = y;
+        </script>
+        <script defer src="../js/landing.js"></script>
+    </body>
+</html>

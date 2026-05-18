@@ -1,0 +1,204 @@
+/* Waiting Room Card — updated for new design system */
+.waiting-card {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 52px 44px 44px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    border-radius: 28px;
+    box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    text-align: center;
+}
+
+/* Icon */
+.waiting-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(0, 245, 255, 0.08));
+    border: 1px solid rgba(124, 58, 237, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: iconPulse 3s ease-in-out infinite;
+}
+
+.waiting-icon i {
+    font-size: 30px;
+    color: #a855f7;
+}
+
+@keyframes iconPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+    50%       { box-shadow: 0 0 0 18px rgba(124, 58, 237, 0); }
+}
+
+/* Title */
+.waiting-title {
+    font-family: 'Bebas Neue', 'Outfit', sans-serif;
+    font-size: 2.2rem;
+    letter-spacing: 0.04em;
+    color: #f9faff;
+    margin: 0 0 12px;
+    line-height: 1.05;
+}
+
+/* Description */
+.waiting-description {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.75;
+    margin-bottom: 36px;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Spinner */
+.waiting-spinner {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 0 20px;
+}
+
+.waiting-spinner-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.waiting-spinner-dot:nth-child(1) {
+    background: #a855f7;
+    animation-delay: -0.32s;
+}
+.waiting-spinner-dot:nth-child(2) {
+    background: #7c3aed;
+    animation-delay: -0.16s;
+}
+.waiting-spinner-dot:nth-child(3) {
+    background: #00f5ff;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0.4); opacity: 0.4; }
+    40%            { transform: scale(1); opacity: 1; }
+}
+
+/* Status */
+.waiting-status {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+    margin: 0 0 6px;
+    min-height: 20px;
+    transition: color 0.3s ease;
+}
+
+.waiting-status.ready   { color: #39ff14; }
+.waiting-status.checking { color: #ffc107; }
+
+/* Room name */
+.waiting-room-name {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    border-radius: 10px;
+    padding: 10px 18px;
+}
+.waiting-room-name i { color: #a855f7; }
+
+/* Elapsed */
+.waiting-elapsed {
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 12px;
+    margin: 4px 0 0;
+}
+.waiting-elapsed i { margin-right: 5px; }
+
+/* Audio player */
+.waiting-audio-player {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 10px 16px;
+    margin: 0 0 20px;
+}
+
+.waiting-audio-btn {
+    background: none;
+    border: none;
+    color: #a855f7;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+}
+.waiting-audio-btn:hover { color: #00f5ff; }
+
+.waiting-audio-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.waiting-audio-progress {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #7c3aed, #00f5ff);
+    border-radius: 4px;
+    transition: width 0.3s linear;
+}
+
+/* Divider */
+.waiting-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    margin: 28px 0 24px;
+}
+
+/* Host link */
+.host-login-link {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 13px;
+    margin: 0;
+}
+.host-login-link a {
+    color: #a855f7;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+.host-login-link a:hover {
+    color: #00f5ff;
+}
+
+/* Layout min-height */
+@media (min-width: 641px) {
+    .hero .split-wrap .split-item {
+        min-height: 492px;
+    }
+}
+
+@media (max-width: 480px) {
+    .waiting-card { padding: 36px 28px; }
+    .waiting-title { font-size: 1.7rem; }
+}

@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en" class="no-js">
+    <head>
+        <title id="loginTitle">VideoCall — Login</title>
+        <link id="shortcutIcon" rel="shortcut icon" href="../images/logo.svg" />
+        <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.svg" />
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Login to VideoCall — a private peer-to-peer WebRTC video calling application." />
+
+        <meta property="og:type" content="{{OG_TYPE}}" />
+        <meta property="og:site_name" content="{{OG_SITE_NAME}}" />
+        <meta property="og:title" content="{{OG_TITLE}}" />
+        <meta property="og:description" content="{{OG_DESCRIPTION}}" />
+        <meta property="og:image" content="{{OG_IMAGE}}" />
+        <meta property="og:url" content="{{OG_URL}}" />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+        <script async src="../js/stats.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/xss/dist/xss.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8"></script>
+
+        <style>
+            *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+            :root {
+                --electric: #00f5ff;
+                --violet: #7c3aed;
+                --violet-light: #a855f7;
+                --neon-green: #39ff14;
+                --bg-dark: #050508;
+                --border-subtle: rgba(255,255,255,0.07);
+                --text-muted: rgba(255,255,255,0.45);
+                --font-display: 'Bebas Neue', sans-serif;
+                --font-body: 'Outfit', sans-serif;
+            }
+
+            html, body {
+                min-height: 100vh;
+                font-family: var(--font-body);
+                color: #fff;
+                scrollbar-width: thin;
+                scrollbar-color: var(--violet) #111;
+            }
+
+            ::-webkit-scrollbar { width: 6px; background: #111; }
+            ::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 4px; }
+
+            body {
+                background: var(--bg-dark);
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Orbs */
+            .orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; opacity: 0.2; }
+            .orb-1 { width: 500px; height: 500px; background: var(--violet); top: -100px; left: -100px; animation: o1 12s ease-in-out infinite; }
+            .orb-2 { width: 350px; height: 350px; background: var(--electric); bottom: -80px; right: -80px; animation: o2 14s ease-in-out infinite; }
+            @keyframes o1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(50px,30px)} }
+            @keyframes o2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,-50px)} }
+
+            /* Header */
+            .site-header {
+                position: fixed;
+                top: 0; left: 0; width: 100%;
+                z-index: 200;
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                background: rgba(5,5,8,0.6);
+                border-bottom: 1px solid rgba(124,58,237,0.2);
+            }
+
+            .site-header-inner {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 68px;
+                padding: 0 40px;
+                max-width: 1200px;
+                margin: 0 auto;
+                width: 100%;
+            }
+
+            @media (max-width: 640px) { .site-header-inner { padding: 0 20px; } }
+
+            .header-brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+                color: #fff;
+                font-family: var(--font-display);
+                font-size: 1.5rem;
+                letter-spacing: 0.05em;
+            }
+
+            .header-brand img { width: 28px; height: 28px; border-radius: 8px; }
+
+            .header-back {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                color: rgba(255,255,255,0.5);
+                text-decoration: none;
+                font-size: 13px;
+                font-weight: 500;
+                padding: 8px 16px;
+                border-radius: 10px;
+                border: 1px solid var(--border-subtle);
+                transition: all 0.2s;
+            }
+
+            .header-back:hover { color: #fff; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); }
+
+            /* Main */
+            .page-main {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 100px 24px 60px;
+                position: relative;
+                z-index: 10;
+                min-height: 100vh;
+            }
+
+            .login-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 64px;
+                align-items: center;
+                max-width: 960px;
+                width: 100%;
+            }
+
+            @media (max-width: 760px) {
+                .login-layout { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+                .login-text { display: flex; flex-direction: column; align-items: center; }
+            }
+
+            /* Left text */
+            .login-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: rgba(124,58,237,0.12);
+                border: 1px solid rgba(124,58,237,0.3);
+                border-radius: 100px;
+                padding: 6px 18px;
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--violet-light);
+                margin-bottom: 28px;
+            }
+
+            .login-headline {
+                font-family: var(--font-display);
+                font-size: clamp(2.8rem, 6vw, 5.5rem);
+                line-height: 0.92;
+                letter-spacing: 0.02em;
+                color: #fff;
+                margin-bottom: 24px;
+            }
+
+            .login-headline .hl {
+                display: block;
+                background: linear-gradient(90deg, var(--violet-light), var(--electric));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .login-subtext {
+                font-size: 1rem;
+                line-height: 1.75;
+                color: var(--text-muted);
+                max-width: 360px;
+            }
+
+            /* Card */
+            .login-card {
+                background: rgba(255,255,255,0.03);
+                border: 1px solid rgba(124,58,237,0.25);
+                border-radius: 24px;
+                padding: 44px 40px;
+                backdrop-filter: blur(28px);
+                -webkit-backdrop-filter: blur(28px);
+                box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03) inset;
+                transition: border-color 0.3s, box-shadow 0.3s;
+            }
+
+            .login-card:focus-within {
+                border-color: rgba(124,58,237,0.5);
+                box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 60px rgba(124,58,237,0.12);
+            }
+
+            @media (max-width: 480px) { .login-card { padding: 32px 24px; } }
+
+            .login-icon {
+                width: 56px; height: 56px;
+                background: rgba(124,58,237,0.15);
+                border: 1px solid rgba(124,58,237,0.35);
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                color: var(--violet-light);
+                margin-bottom: 20px;
+            }
+
+            .card-eyebrow {
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--violet-light);
+                margin-bottom: 6px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .card-eyebrow::before {
+                content: '';
+                display: inline-block;
+                width: 18px; height: 2px;
+                background: var(--violet-light);
+            }
+
+            .card-heading {
+                font-family: var(--font-display);
+                font-size: 1.8rem;
+                letter-spacing: 0.03em;
+                color: #fff;
+                margin: 0 0 28px;
+                line-height: 1.1;
+            }
+
+            /* Input */
+            .input-group {
+                position: relative;
+                margin-bottom: 14px;
+            }
+
+            .input-group .form-input {
+                width: 100%;
+                background: rgba(0,0,0,0.4);
+                border: 1.5px solid rgba(255,255,255,0.1);
+                border-radius: 14px;
+                padding: 15px 48px 15px 48px;
+                color: #fff;
+                font-family: var(--font-body);
+                font-size: 15px;
+                font-weight: 500;
+                outline: none;
+                height: 56px;
+                transition: border-color 0.2s, box-shadow 0.2s;
+                caret-color: var(--electric);
+            }
+
+            .input-group .form-input::placeholder { color: rgba(255,255,255,0.3); }
+
+            .input-group .form-input:focus {
+                border-color: var(--violet);
+                box-shadow: 0 0 0 3px rgba(124,58,237,0.2);
+            }
+
+            .input-icon {
+                position: absolute;
+                left: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: rgba(255,255,255,0.3);
+                font-size: 14px;
+                pointer-events: none;
+            }
+
+            .toggle-password {
+                position: absolute;
+                right: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: rgba(255,255,255,0.3);
+                font-size: 14px;
+                cursor: pointer;
+                transition: color 0.2s;
+            }
+
+            .toggle-password:hover { color: rgba(255,255,255,0.7); }
+
+            /* Buttons */
+            .btn-primary {
+                width: 100%;
+                height: 56px;
+                background: linear-gradient(135deg, var(--violet), var(--violet-light));
+                color: #fff;
+                border: none;
+                border-radius: 14px;
+                font-family: var(--font-body);
+                font-size: 14px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                cursor: pointer;
+                box-shadow: 0 4px 24px rgba(124,58,237,0.4);
+                transition: transform 0.2s, box-shadow 0.2s;
+                margin-top: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(124,58,237,0.6); }
+
+            .btn-icon {
+                width: 56px; height: 56px;
+                background: rgba(124,58,237,0.12);
+                border: 1px solid rgba(124,58,237,0.25);
+                color: var(--violet-light);
+                border-radius: 14px;
+                cursor: pointer;
+                font-size: 16px;
+                transition: all 0.2s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+            .btn-icon:hover { background: rgba(124,58,237,0.25); color: #fff; }
+
+            /* Join room section */
+            #joinRoomForm { display: none; }
+
+            .room-input-row {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+                margin-bottom: 12px;
+            }
+
+            .room-input-row .input-group { flex: 1; margin-bottom: 0; }
+            .room-input-row .input-group .form-input { padding-left: 48px; padding-right: 16px; }
+
+            /* Footer */
+            .site-footer {
+                position: relative;
+                z-index: 10;
+                border-top: 1px solid var(--border-subtle);
+                padding: 24px 40px;
+            }
+
+            @media (max-width: 640px) { .site-footer { padding: 24px; } }
+
+            .footer-inner {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .footer-nav ul { display: flex; gap: 4px; list-style: none; flex-wrap: wrap; }
+
+            .footer-nav a {
+                padding: 6px 12px;
+                font-size: 12px;
+                color: rgba(255,255,255,0.35);
+                text-decoration: none;
+                border-radius: 8px;
+                transition: color 0.2s, background 0.2s;
+                font-family: var(--font-body);
+            }
+
+            .footer-nav a:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.06); }
+            .footer-copyright { font-size: 12px; color: rgba(255,255,255,0.25); }
+        </style>
+    </head>
+    <body class="has-animations">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+
+        <!-- Header -->
+        <header class="site-header">
+            <div class="site-header-inner">
+                <a href="/" class="header-brand">
+                    <img src="../images/logo.svg" alt="VideoCall" />
+                    VideoCall
+                </a>
+                <a href="/" class="header-back">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            </div>
+        </header>
+
+        <!-- Main -->
+        <main class="page-main">
+            <div class="login-layout animate__animated animate__fadeIn">
+
+                <!-- Left text -->
+                <div class="login-text">
+                    <div class="login-badge">
+                        <i class="fas fa-lock"></i> Protected Access
+                    </div>
+                    <h1 id="loginHeadingLeft" class="login-headline">
+                        Private.<br />
+                        <span class="hl">Secure.</span><br />
+                        Yours.
+                    </h1>
+                    <p class="login-subtext">
+                        This is a private instance. Enter your credentials to access the video calling interface.
+                    </p>
+                </div>
+
+                <!-- Right card(s) -->
+                <div>
+                    <!-- Login Card -->
+                    <div id="loginForm" class="login-card">
+                        <div class="login-icon">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <div class="card-eyebrow">Authentication</div>
+                        <h2 id="loginHeading" class="card-heading">Welcome back</h2>
+
+                        <div class="input-group">
+                            <i class="fa-solid fa-user input-icon"></i>
+                            <input id="username" class="form-input" type="text"
+                                   placeholder="Username" maxlength="254"
+                                   required autocomplete="username" />
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-key input-icon"></i>
+                            <input id="password" class="form-input" type="password"
+                                   maxlength="32" placeholder="Password"
+                                   required autocomplete="current-password" />
+                            <i id="togglePassword" class="fa-solid fa-eye toggle-password" title="Show/hide password"></i>
+                        </div>
+
+                        <button id="loginButton" class="btn-primary">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            <span id="loginButtonLabel">Login</span>
+                        </button>
+                    </div>
+
+                    <!-- Join Room Card (shown after login) -->
+                    <div id="joinRoomForm" class="login-card" style="margin-top: 16px;">
+                        <div class="login-icon">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <div class="card-eyebrow">Start or Join</div>
+                        <h2 id="joinRoomTitle" class="card-heading">Pick a Room</h2>
+
+                        <div class="room-input-row">
+                            <div class="input-group">
+                                <i class="fa-solid fa-door-open input-icon"></i>
+                                <input id="roomName" class="form-input" type="text"
+                                       placeholder="Enter room name" maxlength="32" required />
+                            </div>
+                            <button id="randomRoomButton" class="btn-icon" title="Generate random room name">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                            </button>
+                            <button id="shareRoomButton" class="btn-icon" title="Share room link">
+                                <i class="fa-solid fa-share-nodes"></i>
+                            </button>
+                        </div>
+
+                        <button id="joinSelectRoomButton" class="btn-primary">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            <span id="joinRoomButtonLabel">Join Room</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/api/v1/docs/">API Docs</a></li>
+                    </ul>
+                </nav>
+                <div class="footer-copyright">&copy; <span id="footerYear"></span> VideoCall App.</div>
+            </div>
+        </footer>
+
+        <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+        <script defer src="../js/utils.js"></script>
+        <script defer src="../js/login.js"></script>
+        <script defer src="../js/brand.js"></script>
+        <script defer src="../js/landing.js"></script>
+    </body>
+</html>
