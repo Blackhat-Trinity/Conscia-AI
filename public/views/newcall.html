@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en" class="no-js">
+    <head>
+        <title id="newCallTitle">VideoCall — Start or Join a Room</title>
+        <link id="shortcutIcon" rel="shortcut icon" href="../images/logo.svg" />
+        <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.svg" />
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Start or join a private WebRTC video call room." />
+
+        <meta property="og:type" content="{{OG_TYPE}}" />
+        <meta property="og:site_name" content="{{OG_SITE_NAME}}" />
+        <meta property="og:title" content="{{OG_TITLE}}" />
+        <meta property="og:description" content="{{OG_DESCRIPTION}}" />
+        <meta property="og:image" content="{{OG_IMAGE}}" />
+        <meta property="og:url" content="{{OG_URL}}" />
+
+        <link rel="stylesheet" href="../css/landing.css" />
+        <link rel="stylesheet" href="../css/newcall.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+        <script async src="../js/stats.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/xss/dist/xss.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8"></script>
+
+        <style>
+            *, *::before, *::after { box-sizing: border-box; }
+
+            :root {
+                --electric: #00f5ff;
+                --violet: #7c3aed;
+                --violet-light: #a855f7;
+                --neon-green: #39ff14;
+                --hot-coral: #ff4757;
+                --bg-dark: #050508;
+                --border-subtle: rgba(255,255,255,0.07);
+                --text-muted: rgba(255,255,255,0.45);
+                --font-display: 'Bebas Neue', sans-serif;
+                --font-body: 'Outfit', sans-serif;
+            }
+
+            html, body {
+                font-family: var(--font-body);
+                font-size: 16px;
+                background: var(--bg-dark);
+                color: #fff;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                scrollbar-width: thin;
+                scrollbar-color: var(--violet) #111;
+            }
+
+            ::-webkit-scrollbar { width: 6px; background: #111; }
+            ::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 4px; }
+
+            /* Orbs */
+            .orb {
+                position: fixed;
+                border-radius: 50%;
+                filter: blur(120px);
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0.25;
+            }
+            .orb-1 { width: 500px; height: 500px; background: var(--violet); top: -100px; left: -100px; animation: o1 12s ease-in-out infinite; }
+            .orb-2 { width: 350px; height: 350px; background: var(--electric); top: 40%; right: -100px; animation: o2 15s ease-in-out infinite; }
+            .orb-3 { width: 300px; height: 300px; background: #ff69b4; bottom: -80px; left: 40%; animation: o3 10s ease-in-out infinite; }
+            @keyframes o1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(60px,40px)} }
+            @keyframes o2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,60px)} }
+            @keyframes o3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(50px,-40px)} }
+
+            /* Header */
+            .site-header {
+                position: fixed !important;
+                top: 0; left: 0; width: 100%;
+                z-index: 200 !important;
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                background: rgba(5,5,8,0.6);
+                border-bottom: 1px solid rgba(124,58,237,0.2);
+            }
+
+            .site-header-inner {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 68px;
+                padding: 0 40px;
+                max-width: 1200px;
+                margin: 0 auto;
+                width: 100%;
+            }
+
+            @media (max-width: 640px) {
+                .site-header-inner { padding: 0 20px; }
+            }
+
+            .header-brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+                color: #fff;
+                font-family: var(--font-display);
+                font-size: 1.5rem;
+                letter-spacing: 0.05em;
+            }
+
+            .header-brand img { width: 28px; height: 28px; border-radius: 8px; }
+
+            .header-back {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                color: rgba(255,255,255,0.5);
+                text-decoration: none;
+                font-size: 13px;
+                font-weight: 500;
+                padding: 8px 16px;
+                border-radius: 10px;
+                border: 1px solid var(--border-subtle);
+                transition: all 0.2s;
+            }
+
+            .header-back:hover { color: #fff; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); }
+
+            /* Main layout */
+            .page-main {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 100px 24px 60px;
+                position: relative;
+                z-index: 10;
+                min-height: 100vh;
+            }
+
+            .newcall-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 64px;
+                align-items: center;
+                max-width: 980px;
+                width: 100%;
+            }
+
+            @media (max-width: 780px) {
+                .newcall-layout { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+                .newcall-text { display: flex; flex-direction: column; align-items: center; }
+            }
+
+            /* Left panel */
+            .newcall-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: rgba(0,245,255,0.08);
+                border: 1px solid rgba(0,245,255,0.25);
+                border-radius: 100px;
+                padding: 6px 18px;
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--electric);
+                margin-bottom: 28px;
+            }
+
+            .newcall-badge i { font-size: 9px; }
+
+            .newcall-headline {
+                font-family: var(--font-display);
+                font-size: clamp(2.8rem, 6vw, 5.5rem);
+                line-height: 0.92;
+                letter-spacing: 0.02em;
+                margin-bottom: 24px;
+                color: #fff;
+            }
+
+            .newcall-headline .hl {
+                display: block;
+                background: linear-gradient(90deg, var(--violet-light), var(--electric));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .newcall-subtext {
+                font-size: 1rem;
+                line-height: 1.75;
+                color: var(--text-muted);
+                margin-bottom: 0;
+                max-width: 380px;
+            }
+
+            /* Tip pills */
+            .tip-chips {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 32px;
+            }
+
+            .tip-chip {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 6px 14px;
+                border-radius: 100px;
+                border: 1px solid var(--border-subtle);
+                background: rgba(255,255,255,0.03);
+                font-size: 12px;
+                color: rgba(255,255,255,0.5);
+                transition: all 0.2s;
+            }
+
+            .tip-chip i { color: var(--violet-light); font-size: 10px; }
+            .tip-chip:hover { color: #fff; border-color: rgba(124,58,237,0.4); background: rgba(124,58,237,0.08); }
+
+            /* Right card */
+            .newcall-card {
+                background: rgba(255,255,255,0.03);
+                border: 1px solid rgba(124,58,237,0.25);
+                border-radius: 24px;
+                padding: 44px 40px;
+                backdrop-filter: blur(28px);
+                -webkit-backdrop-filter: blur(28px);
+                box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03) inset;
+                transition: border-color 0.3s, box-shadow 0.3s;
+            }
+
+            .newcall-card:focus-within {
+                border-color: rgba(124,58,237,0.5);
+                box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 60px rgba(124,58,237,0.12);
+            }
+
+            @media (max-width: 480px) { .newcall-card { padding: 32px 24px; } }
+
+            .card-eyebrow {
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--violet-light);
+                margin-bottom: 6px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .card-eyebrow::before {
+                content: '';
+                display: inline-block;
+                width: 18px; height: 2px;
+                background: var(--violet-light);
+            }
+
+            .card-heading {
+                font-family: var(--font-display);
+                font-size: 1.8rem;
+                letter-spacing: 0.03em;
+                color: #fff;
+                margin: 0 0 32px;
+                line-height: 1.1;
+            }
+
+            /* Room input */
+            .room-field {
+                position: relative;
+                margin-bottom: 12px;
+            }
+
+            .room-field-input {
+                width: 100%;
+                background: rgba(0,0,0,0.4);
+                border: 1.5px solid rgba(255,255,255,0.1);
+                border-radius: 14px;
+                padding: 15px 52px 15px 18px;
+                color: #fff;
+                font-family: var(--font-body);
+                font-size: 15px;
+                font-weight: 600;
+                outline: none;
+                transition: border-color 0.2s, box-shadow 0.2s;
+                caret-color: var(--electric);
+                height: 56px;
+            }
+
+            .room-field-input::placeholder { color: rgba(255,255,255,0.3); font-weight: 400; }
+            .room-field-input:focus {
+                border-color: var(--violet);
+                box-shadow: 0 0 0 3px rgba(124,58,237,0.2);
+            }
+
+            .room-field-btn {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(124,58,237,0.15);
+                border: 1px solid rgba(124,58,237,0.3);
+                color: var(--violet-light);
+                border-radius: 8px;
+                padding: 7px 9px;
+                cursor: pointer;
+                font-size: 14px;
+                transition: all 0.2s;
+            }
+
+            .room-field-btn:hover { background: rgba(124,58,237,0.3); color: #fff; }
+            .room-field-btn.spin { animation: spinAnim 0.5s ease; }
+            @keyframes spinAnim {
+                0%   { transform: translateY(-50%) rotate(0deg) scale(1); }
+                50%  { transform: translateY(-50%) rotate(180deg) scale(1.2); }
+                100% { transform: translateY(-50%) rotate(360deg) scale(1); }
+            }
+
+            /* Buttons */
+            .btn-join {
+                width: 100%;
+                height: 56px;
+                background: linear-gradient(135deg, var(--violet), var(--violet-light));
+                color: #fff;
+                border: none;
+                border-radius: 14px;
+                font-family: var(--font-body);
+                font-size: 14px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                cursor: pointer;
+                box-shadow: 0 4px 24px rgba(124,58,237,0.4);
+                transition: transform 0.2s, box-shadow 0.2s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .btn-join:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(124,58,237,0.6); }
+            .btn-join:active { transform: translateY(0); }
+
+            .btn-customize {
+                width: 100%;
+                height: 50px;
+                background: rgba(255,255,255,0.04);
+                color: rgba(255,255,255,0.65);
+                border: 1px solid var(--border-subtle);
+                border-radius: 14px;
+                font-family: var(--font-body);
+                font-size: 13px;
+                font-weight: 600;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                cursor: pointer;
+                transition: all 0.2s;
+                margin-top: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .btn-customize:hover {
+                border-color: rgba(124,58,237,0.4);
+                background: rgba(124,58,237,0.08);
+                color: #fff;
+            }
+
+            /* Recent room */
+            #lastRoomContainer {
+                display: none;
+                align-items: center;
+                gap: 6px;
+                margin-top: 16px;
+                font-size: 12px;
+                color: rgba(255,255,255,0.4);
+                flex-wrap: wrap;
+            }
+
+            #lastRoomContainer a {
+                color: var(--violet-light);
+                text-decoration: none;
+                font-weight: 600;
+                transition: color 0.2s;
+            }
+
+            #lastRoomContainer a:hover { color: var(--electric); }
+
+            /* Divider */
+            .card-divider {
+                border: none;
+                border-top: 1px solid var(--border-subtle);
+                margin: 28px 0 24px;
+            }
+
+            /* Security badges */
+            .security-row {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .sec-badge {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 6px 12px;
+                border-radius: 8px;
+                background: rgba(255,255,255,0.03);
+                border: 1px solid var(--border-subtle);
+                font-size: 11px;
+                color: rgba(255,255,255,0.5);
+                flex: 1;
+                justify-content: center;
+                min-width: 80px;
+            }
+
+            .sec-badge i { color: var(--neon-green); font-size: 10px; }
+
+            /* Footer */
+            .site-footer {
+                position: relative;
+                z-index: 10;
+                border-top: 1px solid var(--border-subtle);
+                padding: 24px 40px;
+            }
+
+            .footer-inner {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .footer-nav ul {
+                display: flex;
+                gap: 4px;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .footer-nav a {
+                padding: 6px 12px;
+                font-size: 12px;
+                color: rgba(255,255,255,0.35);
+                text-decoration: none;
+                border-radius: 8px;
+                transition: color 0.2s, background 0.2s;
+                font-family: var(--font-body);
+            }
+
+            .footer-nav a:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.06); }
+            .footer-copyright { font-size: 12px; color: rgba(255,255,255,0.25); }
+        </style>
+    </head>
+    <body>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+        <!-- HEADER -->
+        <header class="site-header">
+            <div class="site-header-inner">
+                <a href="/" class="header-brand">
+                    <img src="../images/logo.svg" alt="VideoCall" />
+                    VideoCall
+                </a>
+                <a href="/" class="header-back">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            </div>
+        </header>
+
+        <!-- MAIN -->
+        <main class="page-main">
+            <div class="newcall-layout animate__animated animate__fadeIn">
+
+                <!-- Left: Text -->
+                <div class="newcall-text">
+                    <div class="newcall-badge">
+                        <i class="fas fa-shield-halved"></i>
+                        Private &amp; Encrypted
+                    </div>
+                    <h1 id="newCallRoomTitle" class="newcall-headline">
+                        Pick a Name.<br />
+                        <span class="hl">Go Live.</span>
+                    </h1>
+                    <p id="newCallRoomDescription" class="newcall-subtext">
+                        Each room gets a unique disposable URL. Share it with anyone — no account, no download, just instant secure video.
+                    </p>
+                    <div class="tip-chips">
+                        <div class="tip-chip"><i class="fas fa-lock"></i> E2E Encrypted</div>
+                        <div class="tip-chip"><i class="fas fa-user-slash"></i> No Account</div>
+                        <div class="tip-chip"><i class="fas fa-bolt"></i> Instant</div>
+                        <div class="tip-chip"><i class="fas fa-code-branch"></i> Open Source</div>
+                    </div>
+                </div>
+
+                <!-- Right: Card -->
+                <div class="newcall-card">
+                    <div class="card-eyebrow">Enter Room</div>
+                    <h2 class="card-heading" id="appJoinDescription">
+                        Where are we<br />meeting today?
+                    </h2>
+
+                    <div class="room-field">
+                        <input id="roomName" class="room-field-input" type="text"
+                               value="my-room" maxlength="32"
+                               autocomplete="off" spellcheck="false"
+                               placeholder="room-name…" />
+                        <button id="genRoomButton" class="room-field-btn fas fa-arrows-rotate"
+                                title="Generate random name"></button>
+                    </div>
+
+                    <button id="joinRoomButton" class="btn-join">
+                        <i class="fas fa-video"></i> Join Room
+                    </button>
+
+                    <button id="customizeRoomButton" class="btn-customize">
+                        <i class="fas fa-sliders"></i> Customize Room
+                    </button>
+
+                    <div id="lastRoomContainer" class="last-room" style="display:none; margin-top:14px; font-size:12px; color:rgba(255,255,255,0.4); flex-wrap:wrap; align-items:center; gap:6px;">
+                        <i class="fas fa-clock-rotate-left" style="font-size:10px;"></i>
+                        <span id="appJoinLastRoom">Recent:</span>
+                        <a id="lastRoom" style="color:var(--violet-light);text-decoration:none;font-weight:600;"></a>
+                    </div>
+
+                    <hr class="card-divider" />
+
+                    <div class="security-row">
+                        <div class="sec-badge"><i class="fas fa-check-circle"></i> Secure</div>
+                        <div class="sec-badge"><i class="fas fa-check-circle"></i> Private</div>
+                        <div class="sec-badge"><i class="fas fa-check-circle"></i> Free</div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/privacy">Privacy</a></li>
+                        <li><a href="/api/v1/docs/">API</a></li>
+                    </ul>
+                </nav>
+                <div class="footer-copyright">&copy; <span id="footerYear"></span> VideoCall App.</div>
+            </div>
+        </footer>
+
+        <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+        <script defer src="../js/utils.js"></script>
+        <script defer src="../js/brand.js"></script>
+        <script defer src="../js/landing.js"></script>
+        <script defer src="../js/common.js"></script>
+    </body>
+</html>

@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en" class="no-js">
+    <head>
+        <title id="privacyPolicyTitle">VideoCall — Privacy Policy</title>
+        <link id="shortcutIcon" rel="shortcut icon" href="../images/logo.svg" />
+        <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.svg" />
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Privacy Policy for VideoCall — a private peer-to-peer WebRTC video calling application." />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+        <style>
+            *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+            :root {
+                --color-primary:       #6c63ff;
+                --color-primary-dark:  #574fd6;
+                --color-primary-light: #a89eff;
+                --transition-base:     0.25s ease;
+            }
+
+            html, body {
+                min-height: 100vh;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                color: #fff;
+            }
+
+            body {
+                background: radial-gradient(ellipse at top left, #0f0c29, #302b63, #24243e);
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* ---- Header ---- */
+            .site-header {
+                position: fixed;
+                top: 0; left: 0; width: 100%;
+                z-index: 100;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                background: rgba(15, 12, 41, 0.7);
+                border-bottom: 1px solid rgba(108, 99, 255, 0.15);
+            }
+
+            .site-header-inner {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 64px;
+                padding: 0 24px;
+                max-width: 1100px;
+                margin: 0 auto;
+                width: 100%;
+            }
+
+            .header-brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+                color: #ffffff;
+                font-weight: 700;
+                font-size: 1rem;
+            }
+
+            .header-brand img { width: 28px; height: 28px; border-radius: 6px; }
+
+            /* ---- Main ---- */
+            .page-main {
+                flex: 1;
+                padding: 100px 24px 60px;
+                max-width: 760px;
+                margin: 0 auto;
+                width: 100%;
+            }
+
+            /* ---- Hero ---- */
+            .privacy-hero {
+                text-align: center;
+                margin-bottom: 48px;
+            }
+
+            .privacy-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(108, 99, 255, 0.15);
+                border: 1px solid rgba(108, 99, 255, 0.3);
+                border-radius: 50px;
+                padding: 4px 14px;
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--color-primary-light);
+                margin-bottom: 20px;
+            }
+
+            .privacy-title {
+                font-size: clamp(1.8rem, 4vw, 2.6rem);
+                font-weight: 900;
+                letter-spacing: -0.03em;
+                background: linear-gradient(135deg, #ffffff 30%, var(--color-primary-light) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin: 0 0 12px;
+                line-height: 1.2;
+            }
+
+            .privacy-subtitle {
+                color: rgba(255,255,255,0.5);
+                font-size: 0.95rem;
+            }
+
+            /* ---- Policy cards ---- */
+            .policy-card {
+                background: rgba(255,255,255,0.04);
+                border: 1px solid rgba(108,99,255,0.15);
+                border-radius: 16px;
+                padding: 28px 32px;
+                margin-bottom: 16px;
+                transition: border-color var(--transition-base);
+            }
+
+            .policy-card:hover {
+                border-color: rgba(108,99,255,0.3);
+            }
+
+            .policy-card-header {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+
+            .policy-icon {
+                width: 38px;
+                height: 38px;
+                background: rgba(108,99,255,0.15);
+                border: 1px solid rgba(108,99,255,0.25);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                color: var(--color-primary-light);
+                flex-shrink: 0;
+            }
+
+            .policy-card-title {
+                font-size: 1rem;
+                font-weight: 700;
+                color: #ffffff;
+            }
+
+            .policy-card p {
+                font-size: 0.9rem;
+                line-height: 1.7;
+                color: rgba(255,255,255,0.6);
+            }
+
+            .policy-card a {
+                color: var(--color-primary-light);
+                text-decoration: none;
+            }
+
+            .policy-card a:hover {
+                text-decoration: underline;
+            }
+
+            /* ---- CTA ---- */
+            .privacy-cta {
+                text-align: center;
+                margin-top: 40px;
+            }
+
+            .btn-primary {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 14px 36px;
+                background: var(--color-primary);
+                color: #fff;
+                border: none;
+                border-radius: 50px;
+                font-size: 14px;
+                font-weight: 700;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                cursor: pointer;
+                text-decoration: none;
+                transition: background 0.2s, transform 0.15s;
+                box-shadow: 0 4px 24px rgba(108,99,255,0.4);
+            }
+
+            .btn-primary:hover {
+                background: var(--color-primary-dark);
+                transform: translateY(-2px);
+            }
+
+            /* ---- Footer ---- */
+            .site-footer {
+                border-top: 1px solid rgba(255,255,255,0.06);
+                padding: 24px;
+            }
+
+            .footer-inner {
+                max-width: 1100px;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .footer-nav ul {
+                display: flex;
+                gap: 4px;
+                list-style: none;
+                flex-wrap: wrap;
+            }
+
+            .footer-nav a {
+                padding: 4px 10px;
+                font-size: 12px;
+                color: rgba(255,255,255,0.4);
+                text-decoration: none;
+                border-radius: 6px;
+                transition: color 0.2s, background 0.2s;
+            }
+
+            .footer-nav a:hover {
+                color: rgba(255,255,255,0.8);
+                background: rgba(255,255,255,0.06);
+            }
+
+            .footer-copyright { font-size: 12px; color: rgba(255,255,255,0.3); }
+        </style>
+    </head>
+    <body>
+
+        <!-- Header -->
+        <header class="site-header">
+            <div class="site-header-inner">
+                <a href="/" class="header-brand">
+                    <img src="../images/logo.svg" alt="VideoCall" />
+                    VideoCall
+                </a>
+                <a href="/" style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;"
+                   onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+                    <i class="fas fa-arrow-left" style="margin-right:6px;"></i>Back
+                </a>
+            </div>
+        </header>
+
+        <!-- Main -->
+        <main class="page-main">
+            <div class="privacy-hero">
+                <div class="privacy-badge">
+                    <i class="fas fa-shield-halved"></i> Privacy Policy
+                </div>
+                <h1 class="privacy-title">Your Privacy Matters</h1>
+                <p class="privacy-subtitle">How VideoCall handles (or doesn't handle) your data.</p>
+            </div>
+
+            <div class="policy-card">
+                <div class="policy-card-header">
+                    <div class="policy-icon"><i class="fas fa-database"></i></div>
+                    <h2 class="policy-card-title">Minimal Data Collection</h2>
+                </div>
+                <p>
+                    We collect only the minimal data required to provide real-time communication functionality.
+                    No personal accounts, no user profiles, no analytics tied to individuals.
+                </p>
+            </div>
+
+            <div class="policy-card">
+                <div class="policy-card-header">
+                    <div class="policy-icon"><i class="fas fa-network-wired"></i></div>
+                    <h2 class="policy-card-title">Signaling Data</h2>
+                </div>
+                <p>
+                    VideoCall is a real-time peer-to-peer WebRTC application. Establishing a connection requires
+                    temporary signaling data such as
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidate" target="_blank">RTCIceCandidates</a>
+                    and
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCSessionDescription" target="_blank">RTCSessionDescriptions</a>.
+                    This data is used only to negotiate the connection between peers.
+                </p>
+            </div>
+
+            <div class="policy-card">
+                <div class="policy-card-header">
+                    <div class="policy-icon"><i class="fas fa-trash-can"></i></div>
+                    <h2 class="policy-card-title">No Persistent Storage</h2>
+                </div>
+                <p>
+                    Signaling data is not stored in any persistent database and is discarded immediately
+                    after the session ends or the user leaves. VideoCall does not retain chat, audio, video,
+                    or file transfer content.
+                </p>
+            </div>
+
+            <div class="policy-card">
+                <div class="policy-card-header">
+                    <div class="policy-icon"><i class="fas fa-lock"></i></div>
+                    <h2 class="policy-card-title">Encryption</h2>
+                </div>
+                <p>
+                    Media streams are transmitted directly between peers using WebRTC and are encrypted via
+                    <a href="https://en.wikipedia.org/wiki/Secure_Real-time_Transport_Protocol" target="_blank">SRTP (Secure Real-time Transport Protocol)</a>.
+                    Data channels (chat, file sharing) use
+                    <a href="https://en.wikipedia.org/wiki/Datagram_Transport_Layer_Security" target="_blank">DTLS (Datagram Transport Layer Security)</a>.
+                </p>
+            </div>
+
+            <div class="policy-card">
+                <div class="policy-card-header">
+                    <div class="policy-icon"><i class="fas fa-arrows-left-right"></i></div>
+                    <h2 class="policy-card-title">Peer-to-Peer Architecture</h2>
+                </div>
+                <p>
+                    VideoCall does not act as an intermediary for communications. Audio, video, chat messages,
+                    and file transfers are exchanged directly between users and are not routed through or stored
+                    on any server.
+                </p>
+            </div>
+
+            <div class="policy-card">
+                <div class="policy-card-header">
+                    <div class="policy-icon"><i class="fas fa-circle-dot"></i></div>
+                    <h2 class="policy-card-title">Recordings</h2>
+                </div>
+                <p>
+                    Meeting recordings (if enabled) are temporarily stored in your browser as a
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob" target="_blank">Blob</a>
+                    and downloaded locally to your device. VideoCall does not have access to or store these recordings.
+                </p>
+            </div>
+
+            <div class="privacy-cta">
+                <a href="/newcall" class="btn-primary">
+                    <i class="fas fa-video"></i> I Agree — Start a Call
+                </a>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/api/v1/docs/">API Docs</a></li>
+                    </ul>
+                </nav>
+                <div class="footer-copyright">&copy; <span id="footerYear"></span> VideoCall App. All rights reserved.</div>
+            </div>
+        </footer>
+
+        <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+        <script defer src="../js/brand.js"></script>
+        <script defer src="../js/landing.js"></script>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+/*
+ * VideoCall — Shared Design System Overrides
+ * Shaurya Sharma UI Redesign
+ * Appended to landing.css
+ */
+
+/* ─── DESIGN TOKENS ─── */
+:root {
+    --vc-electric: #00f5ff;
+    --vc-violet: #7c3aed;
+    --vc-violet-light: #a855f7;
+    --vc-neon-green: #39ff14;
+    --vc-hot-coral: #ff4757;
+    --vc-gold: #ffd700;
+    --vc-bg-dark: #050508;
+    --vc-border: rgba(255,255,255,0.07);
+    --vc-text-muted: rgba(255,255,255,0.45);
+    --vc-font-display: 'Bebas Neue', sans-serif;
+    --vc-font-body: 'Outfit', sans-serif;
+}
+
+/* ─── GLOBAL SCROLLBAR ─── */
+html, body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--vc-violet) #111;
+}
+::-webkit-scrollbar { width: 6px; background: #111; }
+::-webkit-scrollbar-thumb { background: var(--vc-violet); border-radius: 4px; }
+
+/* ─── FLOATING AMBIENT ORBS (shared) ─── */
+.vc-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.22;
+}

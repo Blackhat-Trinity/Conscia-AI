@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en" class="no-js">
+    <head>
+        <title id="waitingRoomTitle">VideoCall — Waiting for host</title>
+        <link id="shortcutIcon" rel="shortcut icon" href="../images/logo.svg" />
+        <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.svg" />
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Waiting for the host to start the VideoCall session." />
+
+        <meta property="og:type" content="{{OG_TYPE}}" />
+        <meta property="og:site_name" content="{{OG_SITE_NAME}}" />
+        <meta property="og:title" content="{{OG_TITLE}}" />
+        <meta property="og:description" content="{{OG_DESCRIPTION}}" />
+        <meta property="og:image" content="{{OG_IMAGE}}" />
+        <meta property="og:url" content="{{OG_URL}}" />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+        <script defer src="../js/brand.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/xss/dist/xss.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <link rel="stylesheet" href="../css/waitingRoom.css" />
+
+        <style>
+            *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+            :root {
+                --electric: #00f5ff;
+                --violet: #7c3aed;
+                --violet-light: #a855f7;
+                --neon-green: #39ff14;
+                --bg-dark: #050508;
+                --border-subtle: rgba(255,255,255,0.07);
+                --text-muted: rgba(255,255,255,0.45);
+                --font-display: 'Bebas Neue', sans-serif;
+                --font-body: 'Outfit', sans-serif;
+            }
+
+            html, body {
+                min-height: 100vh;
+                font-family: var(--font-body);
+                color: #fff;
+            }
+
+            body {
+                background: var(--bg-dark);
+                display: flex;
+                flex-direction: column;
+                scrollbar-width: thin;
+                scrollbar-color: var(--violet) #111;
+            }
+
+            ::-webkit-scrollbar { width: 6px; background: #111; }
+            ::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 4px; }
+
+            /* Orbs */
+            .orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; opacity: 0.2; }
+            .orb-1 { width: 500px; height: 500px; background: var(--violet); top: -100px; left: -100px; animation: o1 12s ease-in-out infinite; }
+            .orb-2 { width: 350px; height: 350px; background: var(--electric); bottom: -80px; right: -80px; animation: o2 14s ease-in-out infinite; }
+            @keyframes o1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(50px,30px)} }
+            @keyframes o2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,-50px)} }
+
+            /* Header */
+            .site-header {
+                position: fixed;
+                top: 0; left: 0; width: 100%;
+                z-index: 200;
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                background: rgba(5,5,8,0.6);
+                border-bottom: 1px solid rgba(124,58,237,0.2);
+            }
+
+            .site-header-inner {
+                display: flex;
+                align-items: center;
+                height: 68px;
+                padding: 0 40px;
+                max-width: 1200px;
+                margin: 0 auto;
+                width: 100%;
+            }
+
+            @media (max-width: 640px) { .site-header-inner { padding: 0 20px; } }
+
+            .header-brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+                color: #fff;
+                font-family: var(--font-display);
+                font-size: 1.5rem;
+                letter-spacing: 0.05em;
+            }
+
+            .header-brand img { width: 28px; height: 28px; border-radius: 8px; }
+
+            /* Main */
+            .page-main {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 100px 24px 60px;
+                position: relative;
+                z-index: 10;
+                min-height: 100vh;
+            }
+
+            /* Waiting card */
+            .waiting-card {
+                max-width: 480px;
+                width: 100%;
+                padding: 52px 44px;
+                background: rgba(255,255,255,0.03);
+                border: 1px solid rgba(124,58,237,0.25);
+                border-radius: 28px;
+                box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03) inset;
+                backdrop-filter: blur(28px);
+                text-align: center;
+                animation: fadeUp 0.7s ease both;
+            }
+
+            @keyframes fadeUp {
+                from { opacity: 0; transform: translateY(24px); }
+                to   { opacity: 1; transform: translateY(0); }
+            }
+
+            @media (max-width: 480px) { .waiting-card { padding: 36px 28px; } }
+
+            /* Icon */
+            .waiting-icon {
+                width: 80px; height: 80px;
+                margin: 0 auto 28px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(0,245,255,0.08));
+                border: 1px solid rgba(124,58,237,0.35);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: iconPulse 3s ease-in-out infinite;
+            }
+
+            .waiting-icon i { font-size: 30px; color: var(--violet-light); }
+
+            @keyframes iconPulse {
+                0%, 100% { box-shadow: 0 0 0 0 rgba(124,58,237,0.4); }
+                50%       { box-shadow: 0 0 0 18px rgba(124,58,237,0); }
+            }
+
+            /* Title */
+            .waiting-title {
+                font-family: var(--font-display);
+                font-size: 2rem;
+                letter-spacing: 0.04em;
+                color: #fff;
+                margin: 0 0 12px;
+            }
+
+            /* Description */
+            .waiting-description {
+                font-size: 15px;
+                color: var(--text-muted);
+                line-height: 1.75;
+                margin-bottom: 36px;
+            }
+
+            /* Room name badge */
+            .waiting-room-name {
+                display: none;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                background: rgba(124,58,237,0.12);
+                border: 1px solid rgba(124,58,237,0.25);
+                border-radius: 10px;
+                padding: 10px 18px;
+                font-size: 13px;
+                font-weight: 600;
+                color: rgba(255,255,255,0.7);
+                margin-bottom: 28px;
+            }
+
+            .waiting-room-name i { color: var(--violet-light); }
+
+            /* Spinner */
+            .waiting-spinner {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin: 0 0 20px;
+            }
+
+            .waiting-spinner-dot {
+                width: 12px; height: 12px;
+                background: var(--violet);
+                border-radius: 50%;
+                animation: dotBounce 1.4s ease-in-out infinite both;
+            }
+
+            .waiting-spinner-dot:nth-child(1) { animation-delay: -0.32s; background: var(--violet-light); }
+            .waiting-spinner-dot:nth-child(2) { animation-delay: -0.16s; background: var(--violet); }
+            .waiting-spinner-dot:nth-child(3) { background: var(--electric); }
+
+            @keyframes dotBounce {
+                0%, 80%, 100% { transform: scale(0.4); opacity: 0.4; }
+                40% { transform: scale(1); opacity: 1; }
+            }
+
+            /* Status */
+            .waiting-status {
+                color: rgba(255,255,255,0.4);
+                font-size: 13px;
+                margin: 0 0 6px;
+                min-height: 20px;
+                transition: color 0.3s;
+            }
+
+            .waiting-status.ready { color: var(--neon-green); }
+            .waiting-status.checking { color: #ffc107; }
+
+            /* Elapsed */
+            .waiting-elapsed {
+                color: rgba(255,255,255,0.25);
+                font-size: 12px;
+                margin: 4px 0 0;
+            }
+
+            .waiting-elapsed i { margin-right: 5px; }
+
+            /* Divider */
+            .waiting-divider {
+                border: none;
+                border-top: 1px solid var(--border-subtle);
+                margin: 28px 0 24px;
+            }
+
+            /* Audio player */
+            .waiting-audio-player {
+                display: none;
+                align-items: center;
+                gap: 10px;
+                background: rgba(255,255,255,0.04);
+                border: 1px solid var(--border-subtle);
+                border-radius: 12px;
+                padding: 10px 16px;
+                margin: 0 0 20px;
+            }
+
+            .waiting-audio-btn {
+                background: none;
+                border: none;
+                color: var(--violet-light);
+                font-size: 16px;
+                cursor: pointer;
+                padding: 4px;
+                transition: color 0.2s;
+                flex-shrink: 0;
+            }
+
+            .waiting-audio-btn:hover { color: var(--electric); }
+
+            .waiting-audio-bar {
+                flex: 1;
+                height: 4px;
+                background: rgba(255,255,255,0.08);
+                border-radius: 4px;
+                overflow: hidden;
+            }
+
+            .waiting-audio-progress {
+                height: 100%;
+                width: 0;
+                background: linear-gradient(90deg, var(--violet), var(--electric));
+                border-radius: 4px;
+                transition: width 0.3s linear;
+            }
+
+            /* Host link */
+            .host-login-link {
+                color: rgba(255,255,255,0.35);
+                font-size: 13px;
+                margin: 0;
+            }
+
+            .host-login-link a {
+                color: var(--violet-light);
+                text-decoration: none;
+                font-weight: 600;
+                transition: color 0.2s;
+            }
+
+            .host-login-link a:hover { color: var(--electric); }
+
+            /* Footer */
+            .site-footer {
+                position: relative;
+                z-index: 10;
+                border-top: 1px solid var(--border-subtle);
+                padding: 24px 40px;
+            }
+
+            @media (max-width: 640px) { .site-footer { padding: 24px; } }
+
+            .footer-inner {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .footer-nav ul { display: flex; gap: 4px; list-style: none; flex-wrap: wrap; }
+
+            .footer-nav a {
+                padding: 6px 12px;
+                font-size: 12px;
+                color: rgba(255,255,255,0.35);
+                text-decoration: none;
+                border-radius: 8px;
+                transition: color 0.2s, background 0.2s;
+                font-family: var(--font-body);
+            }
+
+            .footer-nav a:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.06); }
+            .footer-copyright { font-size: 12px; color: rgba(255,255,255,0.25); }
+        </style>
+    </head>
+    <body>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+
+        <!-- Header -->
+        <header class="site-header">
+            <div class="site-header-inner">
+                <a href="/" class="header-brand">
+                    <img src="../images/logo.svg" alt="VideoCall" />
+                    VideoCall
+                </a>
+            </div>
+        </header>
+
+        <!-- Main -->
+        <main class="page-main">
+            <div class="waiting-card" role="status" aria-live="polite">
+
+                <div class="waiting-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <h2 id="waitingRoomHeading" class="waiting-title">Waiting for host</h2>
+
+                <p id="waitingRoomDescription" class="waiting-description">
+                    The meeting hasn't started yet.<br />
+                    You'll join automatically when the host opens the room.
+                </p>
+
+                <div id="waitingRoomName" class="waiting-room-name">
+                    <i class="fa-solid fa-door-open"></i>
+                    <span id="waitingRoomNameText"></span>
+                </div>
+
+                <div class="waiting-spinner">
+                    <div class="waiting-spinner-dot"></div>
+                    <div class="waiting-spinner-dot"></div>
+                    <div class="waiting-spinner-dot"></div>
+                </div>
+
+                <p class="waiting-status" id="waitingStatus" aria-live="assertive">
+                    Checking room status...
+                </p>
+
+                <p class="waiting-elapsed" id="waitingElapsed">
+                    <i class="fa-regular fa-clock"></i>
+                    <span id="waitingElapsedText">Just started waiting</span>
+                </p>
+
+                <hr class="waiting-divider" />
+
+                <div id="waitingAudioPlayer" class="waiting-audio-player">
+                    <button id="waitingAudioBtn" class="waiting-audio-btn" title="Play music">
+                        <i id="waitingAudioIcon" class="fa-solid fa-play"></i>
+                    </button>
+                    <div class="waiting-audio-bar">
+                        <div id="waitingAudioProgress" class="waiting-audio-progress"></div>
+                    </div>
+                    <button id="waitingAudioMute" class="waiting-audio-btn" title="Mute">
+                        <i id="waitingAudioMuteIcon" class="fa-solid fa-volume-high"></i>
+                    </button>
+                </div>
+
+                <p class="host-login-link" id="hostLoginLink">
+                    <span id="waitingRoomHostLink">Are you the host?</span>
+                    <a id="loginLink" href="/login">&nbsp;<span id="waitingRoomLoginLink">Login here</span></a>
+                </p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer id="footer" class="site-footer">
+            <div class="footer-inner">
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/api/v1/docs/">API Docs</a></li>
+                    </ul>
+                </nav>
+                <div class="footer-copyright">&copy; <span id="footerYear"></span> VideoCall App.</div>
+            </div>
+        </footer>
+
+        <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+        <script defer src="../js/landing.js"></script>
+        <script defer src="../js/waitingRoom.js"></script>
+    </body>
+</html>
